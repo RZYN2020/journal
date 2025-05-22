@@ -1,4 +1,4 @@
-baseURL = "journal/"
+baseURL = "https://RZYN2020.github.io/journal"
 title = "Ekstasis's Journal"
 theme = "yinyang"
 languageCode = "zh-cn"
@@ -8,15 +8,11 @@ DefaultContentLanguage = "cn"
 headTitle = "Ekstasis's Journal"
 
 [[params.socials]]
-  name = "RSS"
-  link = "/index.xml"
-
-[[params.socials]]
   name = "Blog"
   link = "https://RZYN2020.github.io"
 
 [[params.socials]]
-  link = "/map.html"
+  link = "/journal/map.html"
   name = "Travel"
 
 
