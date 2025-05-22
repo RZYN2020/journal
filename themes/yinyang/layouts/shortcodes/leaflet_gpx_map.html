@@ -1,0 +1,30 @@
+{{- $gpxUrl := .Get "gpx_url" -}}
+{{- $height := .Get "height" | default "400px" -}}
+{{- $width := .Get "width" | default "100%" -}}
+
+
+{{- if not $gpxUrl -}}
+  {{- errorf "Shortcode 'leaflet_gpx_simple' is missing the required 'gpx_url' parameter. File: %s" .Position -}}
+{{- end -}}
+
+<!-- {{/* 生成一个基于 shortcode 在页面中位置的唯一 ID */}} -->
+{{- $mapId := printf "map-simple-%s" (md5 .Position) -}}
+<div id="{{ $mapId }}" style="height: {{ $height }}; width: {{ $width }};"></div>
+
+<script type="module">
+  const map = L.map('{{ $mapId }}')
+//   const map = L.map('map')
+  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="http://www.osm.org">OpenStreetMap</a>'
+  }).addTo(map);
+
+  // URL to your GPX file or the GPX itself as a XML string.
+  const options = {
+    async: true,
+    polyline_options: { color: 'red' },
+  };
+
+  const gpx = new L.GPX('{{ $gpxUrl }}', options).on('loaded', (e) => {
+    map.fitBounds(e.target.getBounds());
+  }).addTo(map);
+</script>
