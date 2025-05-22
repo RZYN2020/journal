@@ -7,8 +7,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="" />
-  <meta property="og:url" content="https://RZYN2020.github.io/journal/ja/categories/" />
-  <link rel="canonical" href="https://RZYN2020.github.io/journal/ja/categories/" /><link rel="alternate" type="application/atom+xml" href="https://RZYN2020.github.io/journal/index.xml" title="Ekstasis&#39;s Journal">
+  <meta property="og:url" content="https://RZYN2020.github.io/journal/posts/example/" />
+  <link rel="canonical" href="https://RZYN2020.github.io/journal/posts/example/" /><link rel="alternate" type="application/atom+xml" href="https://RZYN2020.github.io/journal/index.xml" title="Ekstasis&#39;s Journal">
 
   <script type="application/ld+json">
   {
@@ -18,29 +18,31 @@
            "@type": "WebPage",
            "@id": "https:\/\/RZYN2020.github.io\/journal\/"
       },
-      "articleSection" : "categories",
-      "name" : "Categories",
-      "headline" : "Categories",
-      "description" : "",
+      "articleSection" : "posts",
+      "name" : "Example",
+      "headline" : "Example",
+      "description" : " 你好 你好，世界！\n",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
       "publisher": "",
       "accountablePerson" : "",
       "copyrightHolder" : "",
-      "copyrightYear" : "0001",
-      "datePublished": "0001-01-01 00:00:00 \u002b0000 UTC",
-      "dateModified" : "0001-01-01 00:00:00 \u002b0000 UTC",
-      "url" : "https:\/\/RZYN2020.github.io\/journal\/ja\/categories\/",
+      "copyrightYear" : "2025",
+      "datePublished": "2025-05-22 11:29:55 \u002b0800 \u002b0800",
+      "dateModified" : "2025-05-22 11:29:55 \u002b0800 \u002b0800",
+      "url" : "https:\/\/RZYN2020.github.io\/journal\/posts\/example\/",
       "keywords" : [  ]
   }
 </script>
-<title>Categories</title>
-  <meta property="og:title" content="Categories" />
+<title>Example</title>
+  <meta property="og:title" content="Example" />
   <meta property="og:type" content="article" />
-  <meta property="og:description" content="" />
-  <meta name="description" content="" />
-  <meta property="og:locale" content="ja" /><meta property="og:image" content="" />
+  <meta property="og:description" content=" 你好 你好，世界！
+" />
+  <meta name="description" content=" 你好 你好，世界！
+" />
+  <meta property="og:locale" content="cn" /><meta property="og:image" content="" />
   
 
   
@@ -74,13 +76,14 @@
 
 
 <body>
-  <article class="posts">
+  <article class="post Chinese" id="article">
     <div class="row">
       <div class="col-xs-12">
-        
+        <div class="site-header">
+          
 <header>
   <div class="header-title">
-    <a href="/ja/"
+    <a href="/"
       >Ekstasis&#39;s Journal</a
     >
   </div>
@@ -98,11 +101,11 @@
   
 </div>
 <div class="row">
-  
+   
   <div class="lang-switch col-xs-3 col-xs-offset-9">
-    <a href="/cn/">Chinese</a>
+    <a href="/ja/">Japanese</a>
   </div>
-    
+   
   <div class="lang-switch col-xs-3 col-xs-offset-9">
     <a href="/en/">English</a>
   </div>
@@ -110,11 +113,72 @@
 </div>
 <div class="header-line"></div>
 
-
-        <h1 class="taxonomy-term"></h1>
-        <div id="posts-list">
-          
         </div>
+        <header class="post-header">
+          <h1 class="post-title">Example</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2025-05-22 11:29:55 &#43;0800">
+                22 May 2025
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          
+          <div id="map-simple-68735ce86149e233cede30a1856db2e2" style="height: 400px; width: 100%;"></div>
+
+<script type="module">
+  const map = L.map('map-simple-68735ce86149e233cede30a1856db2e2')
+
+  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="http://www.osm.org">OpenStreetMap</a>'
+  }).addTo(map);
+
+  
+  const options = {
+    async: true,
+    polyline_options: { color: 'red' },
+  };
+
+  const gpx = new L.GPX('\/gpx\/2025\/example.gpx', options).on('loaded', (e) => {
+    map.fitBounds(e.target.getBounds());
+  }).addTo(map);
+</script>
+<h1 id="你好">你好</h1>
+<p>你好，世界！</p>
+
+        </div>
+
+        <div class="row middle-xs">
+          <div class="col-xs-12">
+            
+          </div>
+        </div>
+        
+          <div class="row">
+            <div class="col-xs-12">
+              
+            </div>
+          </div>
+
+          
+
+
+
+          
+          
+          <div style="height: 50px;"></div>
+          
+        
 
         <div class="site-footer">
   
@@ -146,6 +210,8 @@
     observer.observe(disqus, { childList: true, subtree: true });
   });
 </script>
+
+  
 
 </body>
 

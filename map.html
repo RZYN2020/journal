@@ -143,8 +143,8 @@
         const backButton = document.getElementById('backButton');
 
 
-        const chinaGeoJsonUrl = '/geojson/china.json';
-        const worldGeoJsonUrl = '/geojson/world.json'; 
+        const chinaGeoJsonUrl = '/journal/geojson/china.json';
+        const worldGeoJsonUrl = '/journal/geojson/world.json'; 
 
         // --- 初始化函数 ---
         async function initMap() {
@@ -361,7 +361,7 @@
         // --- 事件监听器 ---
         if (backButton) {
             backButton.addEventListener('click', () => {
-                window.location.href = '/';
+                window.location.href = '/journal';
             });
         }
 

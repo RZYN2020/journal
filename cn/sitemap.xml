@@ -2,59 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>journal/</loc>
+    <loc>https://RZYN2020.github.io/journal/</loc>
     <lastmod>2025-05-22T11:29:55+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ja"
-                href="journal/ja/"
+                href="https://RZYN2020.github.io/journal/ja/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="journal/en/"
+                href="https://RZYN2020.github.io/journal/en/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="journal/"
+                href="https://RZYN2020.github.io/journal/"
                 />
   </url><url>
-    <loc>journal/posts/</loc>
+    <loc>https://RZYN2020.github.io/journal/posts/example/</loc>
     <lastmod>2025-05-22T11:29:55+08:00</lastmod>
   </url><url>
-    <loc>journal/categories/</loc>
+    <loc>https://RZYN2020.github.io/journal/posts/</loc>
+    <lastmod>2025-05-22T11:29:55+08:00</lastmod>
+  </url><url>
+    <loc>https://RZYN2020.github.io/journal/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ja"
-                href="journal/ja/categories/"
+                href="https://RZYN2020.github.io/journal/ja/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="journal/en/categories/"
+                href="https://RZYN2020.github.io/journal/en/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="journal/categories/"
+                href="https://RZYN2020.github.io/journal/categories/"
                 />
   </url><url>
-    <loc>journal/tags/</loc>
+    <loc>https://RZYN2020.github.io/journal/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ja"
-                href="journal/ja/tags/"
+                href="https://RZYN2020.github.io/journal/ja/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="journal/en/tags/"
+                href="https://RZYN2020.github.io/journal/en/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="journal/tags/"
+                href="https://RZYN2020.github.io/journal/tags/"
                 />
   </url>
 </urlset>
