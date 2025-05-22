@@ -2,10 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Ekstasis&#39;s Journal</title>
-    <link>/en/categories/</link>
+    <link>journal/en/categories/</link>
     <description>Recent content in Categories on Ekstasis&#39;s Journal</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <atom:link href="/en/categories/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="journal/en/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

@@ -2,59 +2,59 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/</loc>
+    <loc>journal/</loc>
     <lastmod>2025-05-22T11:29:55+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ja"
-                href="/ja/"
+                href="journal/ja/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/en/"
+                href="journal/en/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="/"
+                href="journal/"
                 />
   </url><url>
-    <loc>/posts/</loc>
+    <loc>journal/posts/</loc>
     <lastmod>2025-05-22T11:29:55+08:00</lastmod>
   </url><url>
-    <loc>/categories/</loc>
+    <loc>journal/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ja"
-                href="/ja/categories/"
+                href="journal/ja/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/en/categories/"
+                href="journal/en/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="/categories/"
+                href="journal/categories/"
                 />
   </url><url>
-    <loc>/tags/</loc>
+    <loc>journal/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ja"
-                href="/ja/tags/"
+                href="journal/ja/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/en/tags/"
+                href="journal/en/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="/tags/"
+                href="journal/tags/"
                 />
   </url>
 </urlset>

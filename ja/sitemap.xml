@@ -2,55 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/ja/categories/</loc>
+    <loc>journal/ja/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="/categories/"
+                href="journal/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/en/categories/"
+                href="journal/en/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ja"
-                href="/ja/categories/"
+                href="journal/ja/categories/"
                 />
   </url><url>
-    <loc>/ja/</loc>
+    <loc>journal/ja/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="/"
+                href="journal/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/en/"
+                href="journal/en/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ja"
-                href="/ja/"
+                href="journal/ja/"
                 />
   </url><url>
-    <loc>/ja/tags/</loc>
+    <loc>journal/ja/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="/tags/"
+                href="journal/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/en/tags/"
+                href="journal/en/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ja"
-                href="/ja/tags/"
+                href="journal/ja/tags/"
                 />
   </url>
 </urlset>
