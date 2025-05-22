@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的旅行地图 - 全球足迹</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Basic reset and full screen setup */
+        html, body {
+            height: 100vh; /* Full viewport height */
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent body scrollbars */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            background-color: #f3f4f6; /* bg-gray-100 */
+        }
+        .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+            background: white;
+            color: #333;
+            box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+        }
+        .leaflet-popup-content {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .leaflet-popup-content strong {
+            font-size: 16px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .leaflet-popup-content small {
+            font-style: italic;
+            color: #555;
+        }
+        /* Map container will take full height of its grid cell */
+        #map {
+            height: 100%;
+            width: 100%;
+            border-radius: 0.5rem; /* Kept for consistency if not edge-to-edge */
+        }
+        /* Info panel setup for scrolling */
+        .info-panel-container { /* New wrapper for padding and shadow */
+            height: 100%; /* Fill the grid cell */
+            display: flex;
+            flex-direction: column;
+        }
+        .info-panel {
+            flex-grow: 1; /* Allow content to grow */
+            overflow-y: auto; /* Enable vertical scroll */
+            min-height: 0; /* Important for flex item with overflow */
+        }
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        .back-button {
+            position: absolute;
+            top: 0.75rem; /* Corresponds to p-3 in header */
+            left: 0.75rem; /* Corresponds to p-3 in header */
+            z-index: 20; /* Above header text, below modals if any */
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="flex flex-col h-screen">
+        <header class="bg-white shadow-md p-3 text-center z-10 relative">
+            <button id="backButton" title="返回上一页" class="back-button bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-3 rounded-full inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+            </button>
+            <h1 class="text-2xl font-bold text-gray-800">我的旅行足迹</h1>
+            <p class="text-sm text-gray-600">记录和展示我去过的地点，并浏览世界地图</p>
+        </header>
+
+        <main class="flex-grow grid grid-cols-1 md:grid-cols-3 gap-4 p-4 min-h-0">
+            <div class="md:col-span-2 relative bg-white rounded-lg shadow-lg overflow-hidden">
+                <div id="map"></div>
+                <div id="loader" class="loader"></div>
+            </div>
+
+            <div class="info-panel-container bg-white p-4 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold mb-3 text-gray-700 flex-shrink-0">已访问地点与批注</h2>
+                <div class="info-panel">
+                    <ul id="visitedList" class="space-y-3 text-gray-700">
+                        <li class="italic text-gray-400">正在加载地点...</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+
+    <script>
+        // --- 全局变量 ---
+        let map;
+        let geoJsonChinaLayer;
+        let geoJsonWorldLayer;
+        
+        // ========================================================================
+        // 在这里修改你去过的地点 (省份、城市、国家) 及其批注
+        // 格式: { name: "地点名称", note: "可选的批注信息", type: "country" (可选, 用于区分国家) }
+        // 示例:
+        let visitedPlaces = [
+            { name: "甘肃", note:  "2002~2017 庆阳老家; 2017~2020 兰州上学" },
+            { name: "陕西", note:  "2010年夏，2014年冬，2025年初，西安"},
+            { name: "宁夏", note:  "2012年秋，银川旅行" },
+            { name: "四川", note:  "2017年夏，成都研学" },
+            { name: "江苏", note:  "2020~2026，南京上学" },
+            { name: "浙江", note:  "2023年夏，杭州实习" },
+            { name: "山东", note:  "2023年秋，青岛，淄博，泰安旅行" },
+            { name: "北京", note:  "2023年秋，旅行" },
+            { name: "安徽", note:  "2024年春，皖南旅行" },
+            { name: "云南", note:  "2024年夏，西双版纳，大理，丽江，昆明，毕业旅行" },
+        ];
+        // 你也可以留空: let visitedPlaces = [];
+        // ========================================================================
+
+        const visitedListEl = document.getElementById('visitedList');
+        const loader = document.getElementById('loader');
+        const backButton = document.getElementById('backButton');
+
+
+        const chinaGeoJsonUrl = '/geojson/china.json';
+        const worldGeoJsonUrl = '/geojson/world.json'; 
+
+        // --- 初始化函数 ---
+        async function initMap() {
+            map = L.map('map', {
+                // Adjust zoom and center for a more global view if needed, or keep focus on China
+                center: [30, 100], // Centered more broadly
+                zoom: 3,          // Zoomed out a bit
+                // worldCopyJump: true // Prevents features from being duplicated when panning across the antimeridian
+            });
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 18, // Default is 18 or 19
+            }).addTo(map);
+
+            showLoader(true);
+            try {
+                await loadAndStyleWorldGeoJSON(); 
+                await loadAndStyleChinaGeoJSON();   
+                renderVisitedList();
+            } catch (error) {
+                console.error("地图初始化过程中发生错误:", error);
+                const mapDiv = document.getElementById('map');
+                if (mapDiv) mapDiv.innerHTML = '<p class="text-red-500 text-center p-4">地图加载失败，请稍后重试。</p>';
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        // --- 地点名称标准化与匹配 ---
+        function normalizeName(name) {
+            if (!name) return "";
+            return name.toLowerCase().replace(/省|市|自治区|特别行政区|壮族|回族|维吾尔|the republic of|republic of|people's republic of|kingdom of|islamic republic of/g, '').trim();
+        }
+
+        function isPlaceVisited(featureName, visitedPlaceName) {
+            const normFeatureName = normalizeName(featureName);
+            const normVisitedPlaceName = normalizeName(visitedPlaceName);
+            if (!normFeatureName || !normVisitedPlaceName) return false;
+            return normFeatureName.includes(normVisitedPlaceName) || normVisitedPlaceName.includes(normFeatureName);
+        }
+        
+        function getVisitedPlaceData(featureName) {
+             return visitedPlaces.find(vp => isPlaceVisited(featureName, vp.name));
+        }
+
+
+        // --- 中国 GeoJSON 相关函数 ---
+        function styleChinaFeature(feature) {
+            const placeData = getVisitedPlaceData(feature.properties.name);
+            if (placeData) {
+                return { fillColor: '#ff7800', fillOpacity: 0.7, color: '#ff7800', weight: 2 };
+            } else {
+                return { fillColor: '#cccccc', fillOpacity: 0.3, color: '#555555', weight: 1 };
+            }
+        }
+
+        function highlightChinaFeature(e) {
+            const layer = e.target;
+            layer.setStyle({ weight: 3, color: '#007bff', fillOpacity: layer.options.fillOpacity + 0.2 });
+            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                layer.bringToFront();
+            }
+        }
+
+        function resetHighlightChina(e) {
+            if (geoJsonChinaLayer) {
+                 geoJsonChinaLayer.resetStyle(e.target);
+            }
+        }
+
+        function onEachFeatureChina(feature, layer) {
+            if (feature.properties && feature.properties.name) {
+                let popupContent = `<strong>${feature.properties.name} (中国)</strong>`;
+                const visitedPlaceData = getVisitedPlaceData(feature.properties.name);
+
+                if (visitedPlaceData && visitedPlaceData.note) {
+                    popupContent += `<br><small>${visitedPlaceData.note}</small>`;
+                }
+                layer.bindPopup(popupContent);
+            }
+            layer.on({
+                mouseover: highlightChinaFeature,
+                mouseout: resetHighlightChina,
+            });
+        }
+
+        async function loadAndStyleChinaGeoJSON() {
+            try {
+                const response = await fetch(chinaGeoJsonUrl);
+                if (!response.ok) throw new Error(`中国 GeoJSON 加载失败: ${response.status}`);
+                const data = await response.json();
+
+                if (geoJsonChinaLayer) map.removeLayer(geoJsonChinaLayer);
+                geoJsonChinaLayer = L.geoJSON(data, {
+                    style: styleChinaFeature,
+                    onEachFeature: onEachFeatureChina,
+                    pane: 'overlayPane' // Ensure China is drawn above world countries if needed
+                }).addTo(map);
+            } catch (error) {
+                console.error(error.message);
+                const listEl = document.getElementById('visitedList');
+                if (listEl) {
+                    const errorLi = document.createElement('li');
+                    errorLi.textContent = "中国地图数据加载失败。";
+                    errorLi.className = "text-red-500";
+                    listEl.appendChild(errorLi);
+                }
+                throw error; 
+            }
+        }
+
+        // --- 世界 GeoJSON 相关函数 ---
+        function styleWorldFeature(feature) {
+            const placeData = getVisitedPlaceData(feature.properties.name); // Check if the country is visited
+            if (placeData && placeData.type === 'country') { // Ensure it's marked as a country
+                 return { fillColor: '#006400', fillOpacity: 0.7, color: '#006400', weight: 2 }; // DarkGreen for visited countries
+            }
+            // Default style for world countries
+            return {
+                fillColor: '#e0e0e0', // Slightly lighter grey for countries
+                fillOpacity: 0.5,
+                color: '#a0a0a0',     // Darker grey for borders
+                weight: 1
+            };
+        }
+
+        function onEachFeatureWorld(feature, layer) {
+            if (feature.properties && feature.properties.name) {
+                let popupContent = `<strong>${feature.properties.name}</strong>`;
+                const visitedPlaceData = getVisitedPlaceData(feature.properties.name);
+                
+                if (visitedPlaceData && visitedPlaceData.type === 'country' && visitedPlaceData.note) {
+                    popupContent += `<br><small>${visitedPlaceData.note}</small>`;
+                }
+                layer.bindPopup(popupContent);
+            }
+            layer.on({
+                mouseover: (e) => {
+                    const currentStyle = styleWorldFeature(e.target.feature); // Get its actual style
+                    e.target.setStyle({ weight: currentStyle.weight + 1, color: '#333' });
+                     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                        e.target.bringToFront(); // Bring country to front, but China layer should still be on top
+                        if(geoJsonChinaLayer) geoJsonChinaLayer.bringToFront();
+                    }
+                },
+                mouseout: (e) => geoJsonWorldLayer.resetStyle(e.target)
+            });
+        }
+
+        async function loadAndStyleWorldGeoJSON() {
+            try {
+                const response = await fetch(worldGeoJsonUrl); 
+                if (!response.ok) throw new Error(`世界 GeoJSON 加载失败: ${response.status}`);
+                const data = await response.json();
+
+                if (geoJsonWorldLayer) map.removeLayer(geoJsonWorldLayer);
+                geoJsonWorldLayer = L.geoJSON(data, {
+                    style: styleWorldFeature,
+                    onEachFeature: onEachFeatureWorld,
+                    pane: 'tilePane' // Draw world map below overlays like China
+                }).addTo(map);
+            } catch (error) {
+                console.error(error.message);
+                const listEl = document.getElementById('visitedList');
+                if (listEl) {
+                    const errorLi = document.createElement('li');
+                    errorLi.textContent = "世界地图数据加载失败。";
+                    errorLi.className = "text-red-500";
+                    listEl.appendChild(errorLi);
+                }
+                throw error; 
+            }
+        }
+        
+        // --- UI 更新 ---
+        function renderVisitedList() {
+            visitedListEl.innerHTML = ''; 
+            if (visitedPlaces.length === 0) {
+                const li = document.createElement('li');
+                li.textContent = '暂无已访问地点 (请在代码中修改 visitedPlaces 数组)';
+                li.className = 'italic text-gray-400';
+                visitedListEl.appendChild(li);
+                return;
+            }
+
+            visitedPlaces.forEach((placeData) => { // Sort alphabetically
+                const li = document.createElement('li');
+                li.className = 'pb-2 mb-2 border-b border-gray-200 last:border-b-0';
+
+                const nameEl = document.createElement('strong');
+                nameEl.textContent = placeData.name;
+                nameEl.className = 'text-indigo-700 block';
+                if (placeData.type === 'country') {
+                    nameEl.classList.add('text-green-700'); // Different color for countries in list
+                }
+                li.appendChild(nameEl);
+
+                if (placeData.note && placeData.note.trim() !== "") {
+                    const noteEl = document.createElement('p');
+                    noteEl.textContent = `${placeData.note}`;
+                    noteEl.className = 'text-sm text-gray-600 ml-1 mt-1';
+                    li.appendChild(noteEl);
+                }
+                visitedListEl.appendChild(li);
+            });
+        }
+
+        function showLoader(show) {
+            if(loader) loader.style.display = show ? 'block' : 'none';
+        }
+
+
+        // --- 事件监听器 ---
+        if (backButton) {
+            backButton.addEventListener('click', () => {
+                window.location.href = '/';
+            });
+        }
+
+
+        // --- 启动应用 ---
+        document.addEventListener('DOMContentLoaded', initMap);
+    </script>
+</body>
+</html>
