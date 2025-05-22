@@ -4,7 +4,7 @@ draft = false
 title = 'Example'
 +++
 
-{{< leaflet_gpx_map gpx_url="/gpx/2025/example.gpx" >}}
+{{< leaflet_gpx_map gpx_url="/journal/gpx/2025/example.gpx" >}}
 
 # 你好
 
