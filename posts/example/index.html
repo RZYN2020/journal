@@ -149,7 +149,7 @@
     polyline_options: { color: 'red' },
   };
 
-  const gpx = new L.GPX('\/gpx\/2025\/example.gpx', options).on('loaded', (e) => {
+  const gpx = new L.GPX('\/journal\/gpx\/2025\/example.gpx', options).on('loaded', (e) => {
     map.fitBounds(e.target.getBounds());
   }).addTo(map);
 </script>
