@@ -25,7 +25,7 @@ jobs:
 
       - name: Build
         run: |
-          hugo --gc 
+          hugo --gc -b="RZYN2020.github.io/journal"
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'
