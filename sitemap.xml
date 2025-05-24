@@ -2,20 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>RZYN2020.github.io/journal/</loc>
+    <loc>https://RZYN2020.github.io/journal/</loc>
     <lastmod>2025-05-24T20:18:58+08:00</lastmod>
   </url><url>
-    <loc>RZYN2020.github.io/journal/posts/</loc>
+    <loc>https://RZYN2020.github.io/journal/posts/</loc>
     <lastmod>2025-05-24T20:18:58+08:00</lastmod>
   </url><url>
-    <loc>RZYN2020.github.io/journal/posts/%E7%A7%A6%E6%B7%AE/</loc>
+    <loc>https://RZYN2020.github.io/journal/posts/%E7%A7%A6%E6%B7%AE/</loc>
     <lastmod>2025-05-24T20:18:58+08:00</lastmod>
   </url><url>
-    <loc>RZYN2020.github.io/journal/posts/example/</loc>
+    <loc>https://RZYN2020.github.io/journal/posts/example/</loc>
     <lastmod>2025-05-22T11:29:55+08:00</lastmod>
   </url><url>
-    <loc>RZYN2020.github.io/journal/categories/</loc>
+    <loc>https://RZYN2020.github.io/journal/categories/</loc>
   </url><url>
-    <loc>RZYN2020.github.io/journal/tags/</loc>
+    <loc>https://RZYN2020.github.io/journal/tags/</loc>
   </url>
 </urlset>
