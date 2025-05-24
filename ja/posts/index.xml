@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ekstasis&#39;s Journal</title>
-    <link>RZYN2020.github.io/journal/ja/</link>
-    <description>Recent content on Ekstasis&#39;s Journal</description>
+    <title>Posts on Ekstasis&#39;s Journal</title>
+    <link>RZYN2020.github.io/journal/ja/posts/</link>
+    <description>Recent content in Posts on Ekstasis&#39;s Journal</description>
     <generator>Hugo</generator>
     <language>ja</language>
     <lastBuildDate>Sat, 24 May 2025 20:18:58 +0800</lastBuildDate>
-    <atom:link href="RZYN2020.github.io/journal/ja/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="RZYN2020.github.io/journal/ja/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>負けたくない</title>
       <link>RZYN2020.github.io/journal/ja/posts/%E7%A7%A6%E6%B7%AE/</link>
